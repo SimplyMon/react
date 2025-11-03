@@ -17,14 +17,31 @@
       const button = <button>Click Me!</button>;
       const text = <p>HELLO WORLD</p>;
 
+      function Counter() {
+        const [count, setCount] = React.useState(10);
+
+        function dagdag() {
+          setCount(count + 1);
+        }
+
+        return (
+          <>
+            <button onClick={dagdag}>NO~</button>
+            <p>{count}</p>
+          </>
+        );
+      }
+
       const tang = dayjs().format("MMMM D YYYY");
       const pota = (
         <div>
           {button}
           {text}
           <p>today is, {tang}</p>
+          <Counter />
         </div>
       );
+
       const container = document.querySelector(".js-container");
       ReactDOM.createRoot(container).render(pota);
     </script>
