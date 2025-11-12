@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Modern Chatbot</title>
+
+    <!-- React -->
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    <script src="https://unpkg.com/supersimpledev/chatbot.js"></script>
+
+    <style>
+      /* --- GENERAL STYLING --- */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", Roboto, sans-serif;
+      }
+
+      body {
+        background: linear-gradient(135deg, #1e1e1e, #2a2a2a);
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+
+      .chat-container {
+        width: 420px;
+        max-width: 90%;
+        height: 600px;
+        background: rgba(255, 255, 255, 0.06);
+        border-radius: 15px;
+        backdrop-filter: blur(10px);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      }
+
+      /* --- CHAT MESSAGES --- */
+      .chat-messages {
+        flex: 1;
+        overflow-y: auto;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        scroll-behavior: smooth;
+      }
+
+      .message {
+        display: flex;
+        align-items: flex-end;
+        gap: 10px;
+      }
+
+      .message.bot {
+        align-self: flex-start;
+      }
+
+      .message.user {
+        align-self: flex-end;
+        flex-direction: row-reverse;
+      }
+
+      .message img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+      }
+
+      .bubble {
+        padding: 10px 15px;
+        border-radius: 15px;
+        max-width: 70%;
+        line-height: 1.4;
+        word-wrap: break-word;
+      }
+
+      .bot .bubble {
+        background: #333;
+      }
+
+      .user .bubble {
+        background: #0078ff;
+      }
+
+      /* --- INPUT SECTION --- */
+      .chat-input {
+        display: flex;
+        padding: 15px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(0, 0, 0, 0.2);
+      }
+
+      .chat-input input {
+        flex: 1;
+        background: rgba(255, 255, 255, 0.08);
+        border: none;
+        outline: none;
+        padding: 10px 12px;
+        color: white;
+        border-radius: 10px;
+        font-size: 15px;
+      }
+
+      .chat-input button {
+        background: #0078ff;
+        border: none;
+        color: white;
+        margin-left: 10px;
+        padding: 10px 15px;
+        border-radius: 10px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: background 0.3s;
+      }
+
+      .chat-input button:hover {
+        background: #005fcc;
+      }
+
+      /* --- LOADING SPINNER --- */
+      .spinner {
+        width: 24px;
+        height: 24px;
+        border: 3px solid rgba(255, 255, 255, 0.3);
+        border-top: 3px solid white;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Scrollbar Styling */
+      .chat-messages::-webkit-scrollbar {
+        width: 6px;
+      }
+      .chat-messages::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="chat-container js-container"></div>
+
+    <script type="text/babel">
+      function ChatInput({ chatMessages, setChatMessages }) {
+        const [inputText, setInputText] = React.useState("");
+        const [loading, setLoading] = React.useState(false);
+
+        async function sendMessage() {
+          if (!inputText.trim()) return;
+
+          const newMessages = [
+            ...chatMessages,
+            { message: inputText, sender: "user", id: crypto.randomUUID() },
+          ];
+          setChatMessages(newMessages);
+          setInputText("");
+          setLoading(true);
+
+          // Show a small delay for realism
+          setTimeout(() => {
+            const response = Chatbot.getResponse(inputText);
+            setChatMessages([
+              ...newMessages,
+              { message: response, sender: "bot", id: crypto.randomUUID() },
+            ]);
+            setLoading(false);
+          }, 1000);
+        }
+
+        return (
+          <div className="chat-input">
+            <input
+              value={inputText}
+              onChange={(e) => setInputText(e.target.value)}
+              placeholder="Type a message..."
+              onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+            />
+            <button onClick={sendMessage}>Send</button>
+          </div>
+        );
+      }
+
+      function ChatMessage({ message, sender }) {
+        return (
+          <div className={`message ${sender}`}>
+            <img
+              src={
+                sender === "bot"
+                  ? "https://cdn-icons-png.flaticon.com/512/4712/4712027.png"
+                  : "https://cdn-icons-png.flaticon.com/512/847/847969.png"
+              }
+            />
+            <div className="bubble">{message}</div>
+          </div>
+        );
+      }
+
+      function ChatMessages({ chatMessages, loading }) {
+        return (
+          <div className="chat-messages">
+            {chatMessages.map((msg) => (
+              <ChatMessage
+                key={msg.id}
+                message={msg.message}
+                sender={msg.sender}
+              />
+            ))}
+            {loading && (
+              <div className="message bot">
+                <img src="https://cdn-icons-png.flaticon.com/512/4712/4712027.png" />
+                <div className="bubble">
+                  <div className="spinner"></div>
+                </div>
+              </div>
+            )}
+          </div>
+        );
+      }
+
+      function MainApp() {
+        const [chatMessages, setChatMessages] = React.useState([
+          { id: "1", message: "Hello, I'm the user!", sender: "user" },
+          {
+            id: "2",
+            message: "Hi there! I'm your AI assistant 🤖",
+            sender: "bot",
+          },
+        ]);
+        const [loading, setLoading] = React.useState(false);
+
+        return (
+          <>
+            <ChatMessages chatMessages={chatMessages} loading={loading} />
+            <ChatInput
+              chatMessages={chatMessages}
+              setChatMessages={setChatMessages}
+              setLoading={setLoading}
+            />
+          </>
+        );
+      }
+
+      const container = document.querySelector(".js-container");
+      ReactDOM.createRoot(container).render(<MainApp />);
+    </script>
+  </body>
+</html>
