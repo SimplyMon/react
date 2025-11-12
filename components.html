@@ -49,33 +49,6 @@
         );
       }
 
-      /*
-        if (userSender === "bot") {
-          return (
-            <div>
-              <img
-                src="https://e7.pngegg.com/pngimages/234/79/png-clipart-black-robot-face-illustration-robotics-technology-computer-icons-internet-bot-robotics-humanoid-robot-industrial-robot-thumbnail.png"
-                width="50"
-                style={{ borderRadius: "25px" }}
-              />
-              {chatMessage}
-            </div>
-          );
-        } else {
-          return (
-            <div>
-              {chatMessage}
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxiyCh_Ir4qu369Kc7y21bNje1hnXUMKBOIA&s"
-                width="50"
-                style={{ borderRadius: "25px" }}
-              />
-            </div>
-          );
-        }
-      }
-        */
-
       function MainApp() {
         return (
           <>
@@ -87,7 +60,6 @@
       }
 
       const container = document.querySelector(".js-container");
-
       ReactDOM.createRoot(container).render(<MainApp />);
     </script>
   </body>
