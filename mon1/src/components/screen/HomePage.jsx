@@ -55,7 +55,7 @@ function HomePage() {
             </div>
 
             <div className="product-price">$10.90</div>
-
+            {/*  */}
             <div className="product-quantity-container">
               <select>
                 <option value="1">1</option>
