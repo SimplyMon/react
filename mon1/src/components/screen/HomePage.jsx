@@ -1,4 +1,5 @@
 import "../../assets/styles/index.css";
+import "../../assets/styles/header.css";
 
 function HomePage() {
   return (
@@ -168,7 +169,7 @@ function HomePage() {
                 <option value="10">10</option>
               </select>
             </div>
-{/*  */}
+            {/*  */}
             <div className="product-spacer"></div>
 
             <div className="added-to-cart">
