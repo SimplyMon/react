@@ -2,6 +2,14 @@ import "../../assets/styles/index.css";
 import "../../assets/styles/header.css";
 import { products } from "../../data/products";
 function HomePage() {
+  fetch("http://localhost:3000/api/products")
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      console.log(data);
+    });
+
   return (
     <>
       <title>Ecom</title>
