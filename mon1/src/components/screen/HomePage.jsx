@@ -4,6 +4,8 @@ import "../../assets/styles/header.css";
 function HomePage() {
   return (
     <>
+      <title>Ecom</title>
+
       <div className="header">
         <div className="left-section">
           <a href="index.html" className="header-link">
