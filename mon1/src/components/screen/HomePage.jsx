@@ -5,11 +5,19 @@ import "../../assets/styles/header.css";
 function HomePage() {
   const [products, setProducts] = useState([]);
 
+  // axios
   useEffect(() => {
     axios.get("http://localhost:3000/api/products").then((response) => {
       setProducts(response.data);
     });
   }, []);
+
+  // built in fetch
+  fetch("http://localhost:3000/api/products").then((response) => {
+    response.json().then((data) => {
+      console.log(data);
+    });
+  });
 
   return (
     <>
