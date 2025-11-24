@@ -3,10 +3,10 @@ import { useEffect, useState } from "react";
 import "../../assets/styles/index.css";
 import "../../assets/styles/header.css";
 import HeaderComponent from "../layout/HeaderComponent";
+import { formatMoney } from "../../utils/money";
 
-function HomePage() {
+function HomePage({ cart }) {
   const [products, setProducts] = useState([]);
-  const [cart, setCart] = useState([]);
 
   // axios
   useEffect(() => {
@@ -14,10 +14,6 @@ function HomePage() {
       setProducts(response.data);
     });
   }, []);
-
-  axios.get("api/cart-items").then((response) => {
-    setCart(response.data);
-  });
 
   return (
     <>
