@@ -14,6 +14,17 @@ function App() {
     });
   }, []);
 
+  // useEffect(() => {
+  //   axios.get("api/cart-items?expand=product").then((res) => {
+  //     setCart(res.data);
+  //     console.log(res.data);
+  //   });
+  // }, []);
+
+  // useEffect(() => {
+  //   axios.get("api/cart-items?expand=product").then((res) => setCart(res.data));
+  // }, []);
+
   return (
     <>
       <Routes>
