@@ -7,7 +7,7 @@ import { formatMoney } from "../../utils/money";
 
 function CheckoutPage({ cart }) {
   const [deliveryOptions, setDeliveryOptions] = useState([]);
-  const [paymentSummary, setPaymentSummary] = useState([null]);
+  const [paymentSummary, setPaymentSummary] = useState(null);
 
   useEffect(() => {
     axios
