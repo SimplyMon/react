@@ -18,11 +18,24 @@ function HomePage({ cart }) {
   // axios
   useEffect(() => {
     const getHomeData = async () => {
-      const response = await axios.get("api/products");
-      setProducts(response.data);
+      try {
+        const response = await axios.get("api/products");
+        setProducts(response.data);
+      } catch (err) {
+        console.log(err);
+      }
     };
     getHomeData();
   }, []);
+
+  // axios
+  // useEffect(() => {
+  //   const getHomeData = async () => {
+  //     const response = await axios.get("api/products");
+  //     setProducts(response.data);
+  //   };
+  //   getHomeData();
+  // }, []);
 
   return (
     <>
