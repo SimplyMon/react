@@ -16,8 +16,12 @@ function App() {
 
   useEffect(() => {
     const fetchAppData = async () => {
-      const response = await axios.get("api/cart-items?expand=product");
-      setCart(response.data);
+      try {
+        const response = await axios.get("api/cart-items?expand=product");
+        setCart(response.data);
+      } catch (error) {
+        console.log(error);
+      }
     };
     fetchAppData();
   }, []);

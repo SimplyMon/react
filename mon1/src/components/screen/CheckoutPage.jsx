@@ -24,14 +24,16 @@ function CheckoutPage({ cart }) {
 
   useEffect(() => {
     const fecthCheckoutData = async () => {
-      let response = await axios.get(
-        "api/delivery-options?expand=estimatedDeliveryTime"
-      );
-
-      setDeliveryOptions(response.data);
-
-      response = await axios.get("api/payment-summary");
-      setPaymentSummary(response.data);
+      try {
+        let response = await axios.get(
+          "api/delivery-options?expand=estimatedDeliveryTime"
+        );
+        setDeliveryOptions(response.data);
+        response = await axios.get("api/payment-summary");
+        setPaymentSummary(response.data);
+      } catch (error) {
+        console.log(error);
+      }
     };
     fecthCheckoutData();
   }, []);
