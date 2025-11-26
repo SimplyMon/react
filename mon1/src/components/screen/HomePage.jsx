@@ -5,7 +5,7 @@ import "../../assets/styles/header.css";
 import HeaderComponent from "../layout/HeaderComponent";
 import { ProductsGrid } from "../layout/ProductsGrid";
 
-function HomePage({ cart }) {
+function HomePage({ cart, loadCart }) {
   const [products, setProducts] = useState([]);
 
   // axios
@@ -43,7 +43,7 @@ function HomePage({ cart }) {
       <HeaderComponent cart={cart} />
 
       <div className="home-page">
-        <ProductsGrid products={products} />
+        <ProductsGrid products={products} loadCart={loadCart} />
       </div>
     </>
   );
